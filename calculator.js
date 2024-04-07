@@ -18,7 +18,7 @@ const res = require('express/lib/response');
  *
  * @returns {Exception|void}
  */
-function handleNanErrorForTwoArgs(num1, num2) {
+function checkTypeNumberForTwoArgs(num1, num2) {
     if (typeof num1 !== 'number') {
         return throw new Error('num1 is not correctly defined');
     } else if (typeof num2 !== 'number') {
@@ -118,7 +118,7 @@ app.get('./add', (req, res) => {
         const num1 = parseFloat(req.query.num1);
         const num2 = parseFloat(req.query.num2);
 
-        handleNanErrorForTwoArgs(num1, num2);
+        checkTypeNumberForTwoArgs(num1, num2);
 
         const result = add(num1, num2);
         res.status(200).json({httpCode: 200, data: result});
@@ -137,7 +137,7 @@ app.get('./subtract', (req, res) => {
         const num1 = parseFloat(req.query.num1);
         const num2 = parseFloat(req.query.num2);
 
-        handleNanErrorForTwoArgs(num1, num2);
+        checkTypeNumberForTwoArgs(num1, num2);
 
         const result = add(num1, num2);
         res.status(200).json({httpCode: 200, data: result});
@@ -156,7 +156,7 @@ app.get('./multiply', (req, res) => {
         const num1 = parseFloat(req.query.num1);
         const num2 = parseFloat(req.query.num2);
 
-        handleNanErrorForTwoArgs(num1, num2);
+        checkTypeNumberForTwoArgs(num1, num2);
 
         const result = add(num1, num2);
         res.status(200).json({httpCode: 200, data: result});
@@ -175,7 +175,7 @@ app.get('./divide', (req, res) => {
         const num1 = parseFloat(req.query.num1);
         const num2 = parseFloat(req.query.num2);
 
-        handleNanErrorForTwoArgs(num1, num2);
+       checkTypeNumberForTwoArgs(num1, num2);
 
         const result = add(num1, num2);
         res.status(200).json({httpCode: 200, data: result});
