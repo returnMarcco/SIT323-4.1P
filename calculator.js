@@ -19,10 +19,12 @@ const res = require('express/lib/response');
  * @returns {Exception|void}
  */
 function checkTypeNumberForTwoArgs(num1, num2) {
-    if (typeof num1 !== 'number') {
-        return throw new Error('num1 is not correctly defined');
-    } else if (typeof num2 !== 'number') {
-        return throw new Error('num2 is not correctly defined');
+    if (isNaN(num1)) {
+        throw new Error('num1 is not correctly defined');
+    } else if (isNaN(num2SS)) {
+        throw new Error('num2 is not correctly defined');
+    } else if (isNaN(num1) && isNaN(num2)) {
+        throw new Error('Both arguments are not correctly defined');
     }
 }
 /**
@@ -30,8 +32,6 @@ function checkTypeNumberForTwoArgs(num1, num2) {
  * Server-side Calculator Microservice Logic
  * ----------------------------------------------
  */
-
-const app = express();
 
 /**
  * ----------------------------------------------
@@ -102,6 +102,7 @@ const divide = (num1, num2) => {
 
     return null;
 };
+const app = express();
 
 /**
  * ----------------------------------------------
@@ -112,7 +113,7 @@ const divide = (num1, num2) => {
 /**
  * `GET Add Numbers` endpoint
  */
-app.get('./add', (req, res) => {
+app.get('/add', (req, res) => {
     // err handling
     try {
         const num1 = parseFloat(req.query.num1);
@@ -121,17 +122,17 @@ app.get('./add', (req, res) => {
         checkTypeNumberForTwoArgs(num1, num2);
 
         const result = add(num1, num2);
-        res.status(200).json({httpCode: 200, data: result});
+        res.status(200).json({ httpCode: 200, data: result });
     } catch (error) {
         console.log(error);
-        res.status(500).json({httpCode: 500, msg: error.toString()});
+        res.status(500).json({ httpCode: 500, msg: error.toString() });
     }
 });
 
 /**
  * `GET Subtract Numbers` endpoint
  */
-app.get('./subtract', (req, res) => {
+app.get('/subtract', (req, res) => {
     // err handling
     try {
         const num1 = parseFloat(req.query.num1);
@@ -139,18 +140,18 @@ app.get('./subtract', (req, res) => {
 
         checkTypeNumberForTwoArgs(num1, num2);
 
-        const result = add(num1, num2);
-        res.status(200).json({httpCode: 200, data: result});
+        const result = subtract(num1, num2);
+        res.status(200).json({ httpCode: 200, data: result });
     } catch (error) {
         console.log(error);
-        res.status(500).json({httpCode: 500, msg: error.toString()});
+        res.status(500).json({ httpCode: 500, msg: error.toString() });
     }
 });
 
 /**
  * `Get Multiply Numbers` endpoint
  */
-app.get('./multiply', (req, res) => {
+app.get('/multiply', (req, res) => {
     // err handling
     try {
         const num1 = parseFloat(req.query.num1);
@@ -158,29 +159,34 @@ app.get('./multiply', (req, res) => {
 
         checkTypeNumberForTwoArgs(num1, num2);
 
-        const result = add(num1, num2);
-        res.status(200).json({httpCode: 200, data: result});
+        const result = multiply(num1, num2);
+        res.status(200).json({ httpCode: 200, data: result });
     } catch (error) {
         console.log(error);
-        res.status(500).json({httpCode: 500, msg: error.toString()});
+        res.status(500).json({ httpCode: 500, msg: error.toString() });
     }
 });
 
 /**
  * `GET divide numbers` endpoint
  */
-app.get('./divide', (req, res) => {
+app.get('/divide', (req, res) => {
     // err handling
     try {
         const num1 = parseFloat(req.query.num1);
         const num2 = parseFloat(req.query.num2);
 
-       checkTypeNumberForTwoArgs(num1, num2);
+        checkTypeNumberForTwoArgs(num1, num2);
 
-        const result = add(num1, num2);
-        res.status(200).json({httpCode: 200, data: result});
+        const result = divide(num1, num2);
+        res.status(200).json({ httpCode: 200, data: result });
     } catch (error) {
         console.log(error);
-        res.status(500).json({httpCode: 500, msg: error.toString()});
+        res.status(500).json({ httpCode: 500, msg: error.toString() });
     }
 });
+
+const port = 3001;
+
+// Set up a listener on port numbered stored in variable `port`.
+app.listen(port, () => console.log(`Express Web Server listening on port: ${port}`));
